@@ -8,7 +8,7 @@
 ### 프로젝트 구조
 
 몇 주차/이름<br>
-ex) 1주차/dosangdev
+ex) 1주차/dosangdev.md
 
 ### Member
 
