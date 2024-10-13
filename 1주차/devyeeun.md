@@ -93,7 +93,7 @@ getData().then(function(data){
 
 
 ## 3. 동기방식과 비동기방식 함수의 차이점
-![동기,비동식 방식](동기비동기.png)
+![동기,비동식 방식](https://adrianmejia.com/images/async-vs-sync-concurrency-in-javascript-large.png)
 동기방식은 순차적, 직렬적으로 실행되는 방식이고, 비동기방식은 병렬적으로 실행되는 방식이다.
 
 1.  동기 : 
