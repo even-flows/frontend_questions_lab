@@ -1,15 +1,129 @@
 ## 1. Promise에 대해 공부해오기
 
-## 2. Promise가 콜백 대비 장/단점은?
+
+## 2. Promise가 가지는 콜백 대비 장/단점은?
 둘 다 자바스크립드에서 비동기 처리를 위해서 사용되는 패턴이며,
 
-Callback 같은 경우 함수의 처리 순서를 보장하기 위해서 함수를 중첩하게 사용되는 경우가 발행해
+Callback 같은 경우 함수의 처리 순서를 보장하기 위해서 사용한다. 
+
+컴파일러는 기본적으로 위에서 아래로 코드를 읽고 컴파일하지만
+
+비동기 작업은 순서가 보장되지 않음
+
+그러면 그 순서를 보장해줘야 하는데 그때 쓰는게 콜백임.
+
+콜백은 함수를 중첩하게 사용되는 경우가 발행해
 
 콜백헬이 발행하는 단점과 에러 처리가 힘들다라는 단점이 있음.
 
-그래서 나온게 Promise이다.
+콜백헬 예시
+```Javascript
+step1(function (value1) {
+    step2(function (value2) {
+        step3(function (value3) {
+            step4(function (value4) {
+                step5(function (value5) {
+                    step6(function (value6) {
+                        // Do something with value6
+                    });
+                });
+            });
+        });
+    });
+});
+function getBread(bread, callback) {
+  callback(bread);
+}
+function toastBread(bread, callback) {
+  callback(bread);
+}
+function applyJam(bread, callback) {
+  callback(bread);
+}
+let bread = "식빵";
+getBread =
+  (bread,
+  function (bread) {
+    console.log(bread + " 사오기 완료");
+    toastBread(bread, function (toastedBread) {
+      console.log(bread + " 굽기 완료");
+      applyJam(toastedBread, function () {
+        console.log(bread + "에 잼 바르기 완료");
+        console.log(bread + " 토스트 준비 완료");
+      });
+    });
+  });
+```
+callback을 사용해서 비동기 로직의 결과값을 처리하기 위해서는 callback안에서만 처리를 해야하고, 콜백 밖에서는 비동기에서 온 값을 알 수가 없음
 
-Promise 생성자 함수를 통해 인스턴스화하며,
+이를 해결하기위해 나온 Promise는
+
+Promise는 객체. 비동기 작업의 상황을 pending, resolved, failed 3가지 상태로 묘사하고 값으로 할당 가능한 객체의 형태로 표현됨
+
+then으로 이루어진 Promise 체인으로 구성할 수 있음.
+
+Promise 예시
+```Javascript
+function stepOne() {
+  return new Promise(function (resolve) {
+    setTimeout(function () {
+      const result = 2;
+      resolve(result);
+    }, 1000);
+  });
+}
+
+function stepTwo(prevResult) {
+  return new Promise(function (resolve) {
+    setTimeout(function () {
+      const result = prevResult + 3;
+      resolve(result);
+    }, 1000);
+  });
+}
+
+function stepThree(prevResult) {
+  return new Promise(function (resolve) {
+    setTimeout(function () {
+      const result = prevResult + 5;
+      resolve(result);
+    }, 1000);
+  });
+}
+
+function finalStep(prevResult) {
+  console.log("결과값:", prevResult);
+}
+
+stepOne()
+  .then(stepTwo)
+  .then(stepThree)
+  .then(finalStep)
+  .catch(function (error) {
+    console.error("에러 발생:", error);
+  });
+```
+Callback과 Promise의 장단점은 비교적 간단.
+
+코드의 유지보수성과 가독성이라는 것.
+
+로직이 길지않고 단순하다면 본인에게 편한방식으로 적용할 수 있음.
+
+Promise all 예시
+```Javascript
+Promise.all([
+    new Promise(resolve => setTimeout(() => resolve(1), 1000)),
+    new Promise(resolve => setTimeout(() => resolve(2), 2000)),
+    new Promise(resolve => setTimeout(() => resolve(3), 3000))
+]).then(console.log) // 프로그램을 실행하고 3초뒤에 실행됨
+.catch(console.log)
+```
+Promise.all 메소드를 이용해 한번에 병렬처리를 진행함.
+
+가장 마지막으로 끝나는 프로미스를 기준으로 수행되고, 모든 프로미스가 fullfilled 상태가 되면 결과값을 배열에 담아 새로운 프로미스를 반환함.
+
+프로미스를 수행하던 도중 하나라도 에러(rejected)가 발생하면 rejected 상태가 되고 수행을 종료함.
+
 
 ## 3. 동기방식과 비동기 방식 함수의 차이점
 ![image](https://github.com/user-attachments/assets/1afe6458-e1ef-4185-baee-e061d0c829d2)
