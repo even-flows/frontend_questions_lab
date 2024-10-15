@@ -10,6 +10,7 @@
 - **대기(Pending)**: 이행하지도, 거부하지도 않은 초기 상태. 비동기 작업이 아직 완료되지 않은 상태.
 - **이행(Fulfilled)**: 연산이 성공적으로 완료된 상태.
 - **거부(Rejected)**: 연산이 실패한 상태.
+![promises사진](https://github.com/user-attachments/assets/275e0e2f-8d1f-43ff-a855-403e8ed0c1b8)
 
 ## 1.3 Promise 사용법
 
