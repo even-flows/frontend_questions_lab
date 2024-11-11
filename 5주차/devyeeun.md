@@ -16,23 +16,28 @@
 ```
 
 즉시 실행 함수를 연속적으로 사용할 때는 표현식 끝에 `세미콜론(;)`을 꼭 붙여야 한다. 그렇지 않으면 에러가 발생한다.
+
 ```javascript
 // no semi-colon
 (function foo() {
-  console.log("foo")
-})() // foo
+  console.log("foo");
+})()(
+  // foo
+
+  function bar(str) {
+    console.log(str);
+  }
+)("bar")(
+  // TypeError: (intermediate value)(...) is not a function
+
+  // has semi-colon
+  function foo() {
+    console.log("foo");
+  }
+)(); // foo
 
 (function bar(str) {
-  console.log(str)
-})("bar") // TypeError: (intermediate value)(...) is not a function
-
-// has semi-colon
-(function foo() {
-  console.log("foo")
-})(); // foo
-
-(function bar(str) {
-  console.log(str)
+  console.log(str);
 })("bar"); // bar
 ```
 
@@ -114,23 +119,27 @@ console.log(myMultiply);
 기명 함수를 정의했는데 () 괄호 없이 즉시 호출하여 에러가 발생했다.
 
 ### 즉시 실행 함수의 에러가 발생하는 2가지 이유
+
 1. 즉시 실행 함수를 괄호()로 감싸지 않은 경우
+
 ```javascript
 function() {
-	let a = 3; 
-    let b = 5; 
+	let a = 3;
+    let b = 5;
     return a * b;
 }();
 
-// Uncaught SyntaxError: Function statements require a function name 
+// Uncaught SyntaxError: Function statements require a function name
 ```
+
 > 이 경우는 함수 정의가 함수 선언문의 형식에 맞지 않기 때문이다. 함수 선언문은 함수 이름을 생략할 수 없기 때문이다.
 
 2. 기명 함수를 정의하고, 괄호() 없이 즉시 호출하는 경우
+
 ```javascript
 function foo() {
-	let a = 3; 
-    let b = 5; 
+	let a = 3;
+    let b = 5;
     return a * b;
 }();
 
@@ -144,7 +153,18 @@ function foo() {
 `function foo() {};();` 의 모습으로 실행이 되기 때문이다.  
 그렇기 때문에 함수 선언문 뒤의 괄호()는 함수 호출 연산자가 아니라 그룹 연산자로 해석이 되고, 그룹 연산자에 피연산자가 없기 때문에 에러가 발생한다.
 
-
 <br/>
 
 # 3. JavaScript를 디버깅할 때 사용하는 도구가 있으면 설명해주세요.
+
+1. 개발자 도구
+
+- 콘솔 (Console): console.log(), console.error() 등을 사용해 로그를 출력하고, 콘솔에서 직접 JavaScript 명령을 실행할 수 있습니다.
+- 디버거 (Debugger): 코드에서 중단점(Breakpoints)을 설정하여 실행을 일시 중지하고, 변수 상태를 검사하거나 코드를 단계별로 실행(Step Over, Step Into, Step Out)할 수 있습니다.
+- 소스(Source): JavaScript 파일을 열어 코드의 특정 위치에 중단점을 설정하고, 실시간으로 코드를 수정할 수 있습니다.
+- 네트워크 (Network): 네트워크 요청을 추적하고, AJAX 호출의 요청 및 응답을 검사할 수 있습니다.
+- DOM 검사기 (Elements): HTML 요소와 스타일(CSS)을 실시간으로 수정하고 검사할 수 있습니다.
+- 프로파일러 (Performance): 성능 분석 도구로, JavaScript 코드 실행 시간, 메모리 사용량 등을 모니터링할 수 있습니다.
+
+2. debugger 명령어를 통한 디버깅  
+   디버깅을 원하는 코드 중간에 debugger를 입력하고 실행하면 중단점이 걸려서 개발자도구에서 중단점을 설정하여 실행을 중지하는 것과 동일하게 디버깅 가능
