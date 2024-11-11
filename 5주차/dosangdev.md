@@ -54,8 +54,10 @@
 
   console.log(qqq);
   ```
+  
+![스크린샷 2024-11-11 오후 2 19 48](https://github.com/user-attachments/assets/8e3e449e-1eec-436a-9fd5-bfbcf0d2cb4f)
 
-- 사진추가
+
 
 # 2. 다음 코드가 즉시 호출 함수 표현식(IIFE)로 동작하지 않는 이유에 관해서 설명해보세요: function foo(){ }(); IIFE로 만들기 위해서는 어떻게 해야 하나요?
 
