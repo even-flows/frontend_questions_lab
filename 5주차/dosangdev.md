@@ -54,10 +54,8 @@
 
   console.log(qqq);
   ```
-  
+
 ![스크린샷 2024-11-11 오후 2 19 48](https://github.com/user-attachments/assets/8e3e449e-1eec-436a-9fd5-bfbcf0d2cb4f)
-
-
 
 # 2. 다음 코드가 즉시 호출 함수 표현식(IIFE)로 동작하지 않는 이유에 관해서 설명해보세요: function foo(){ }(); IIFE로 만들기 위해서는 어떻게 해야 하나요?
 
@@ -66,3 +64,43 @@
 - ()를 붙이면 함수표현식으로 인식이 되는데 함수 표현식은 변수처럼 즉시 값을 쓸 수 있기 때문에 IIFE를 사용할 수 있다.
 
 # 3. JavaScript를 디버깅할 때 사용하는 도구가 있으면 설명해주세요.
+
+- Debugger: 바닐라 js를 이용할 때는 debugger를 적고 웹블라우저에 Source탭에서 디버깅을 확인하지만 react나 next와 같은 프레임워크에서는 webpack이나 Vite같은 번들러를 통해 JavaScript 코드를 번들링하여 웹에 전달하므로, 브라우저에서 볼 때는 eval()형태로 압축되어 source탭을 활용할 수 없다.
+  - vscode안에서 source탭과 똑같이 디버깅을 할 수 있다.
+  - 방법 프로젝트 루트에 .vscode < launch.json파일을 만들고
+  ```js
+  {
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Next.js: debug server-side",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev"
+    },
+    {
+      "name": "Next.js: debug client-side",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000"
+    },
+    {
+      "name": "Next.js: debug full stack",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev",
+      "serverReadyAction": {
+        "pattern": "- Local:.+(https?://.+)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome"
+        }
+        }
+      ]
+    }
+  ```
+  코드를 붙여넣는다.
+  - 디버깅을 하고 싶은 곳에 브레이크 포인트를 찍어주고 F5로 시작하면 Source탭과 똑같이 디버깅을 할 수 있다.
+  - 사진
+  - 타입스크립트를 지원하기 때문에 Typescript에서의 타입 검사와 오류를 vscode 디버거에서 즉시 확인할 수 있다.
+  - 조사식에 특정 변수를 추가하여 코드 실행 중 언제든지 해당 변수의값을 실시간으로 모니터링을 할 수 있다.
+  - next.js와 같은 프레임워크에서 서버 사이드 코드와 클라이언트 사이드 코드를 모두 디버깅 할 수 있어서 전체적인 흐름을 디버깅하기 좋다.
